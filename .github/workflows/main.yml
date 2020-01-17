@@ -19,6 +19,7 @@ jobs:
     - name: Test HTTP
       run: |
         RESULT=$(kubectl exec deployments/frontend -- sh -c "wget --spider -S "http://frontend" 2>&1 | grep 'HTTP/'")
-        if [[ "$RESULT" != " HTTP/1.1 100 OK" ]]; then 
+        echo "front end response: $RESULT"
+        if [[ "$RESULT" != " HTTP/1.1 200 OK" ]]; then 
           exit 1
         fi
