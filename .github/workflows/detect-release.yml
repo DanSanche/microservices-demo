@@ -7,4 +7,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Check Test Cluster
       run: |
+        pwd
+        ls
         hub pull-request
