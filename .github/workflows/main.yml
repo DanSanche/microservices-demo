@@ -10,8 +10,14 @@ jobs:
       run: |
         kubectl get nodes
         if [[ "$?" -ne 0 ]]; then 
-          echo "test cluster not active"
-          exit 1
+          echo "test cluster not active. Attempting to create through kind..."
+          kind delete cluster
+          kind create cluster
+          kubectl get nodes
+          if [[ "$?" -ne 0 ]]; then 
+            echo "test cluster still not active. Abort"
+            exit 1
+          fi
         fi
     - name: Clean Cluster
       run: |
