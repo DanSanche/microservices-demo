@@ -1,0 +1,13 @@
+name: Detect Release
+on:
+  push:
+    branches:
+    - release/*
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
