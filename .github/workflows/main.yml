@@ -21,8 +21,7 @@ jobs:
     steps:
     - name: Clean Cluster
       run: |
-        kubectl delete all --all
-        kubectl wait --for=delete pod --all 2> /dev/null
+        kubectl delete all --all --wait=true
     - name: Deploy From Source
       run: |
         skaffold run
@@ -48,8 +47,7 @@ jobs:
     steps:
     - name: Clean Cluster
       run: |
-        kubectl delete all --all
-        kubectl wait --for=delete pod --all 2> /dev/null
+        kubectl delete all --all --wait=true
     - name: Deploy Release Manifests
       run: |
         kubectl apply -f ./release/kubernetes-manifests.yaml
