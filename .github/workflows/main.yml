@@ -2,7 +2,7 @@ name: "System Smoke Tests"
 on: [pull_request, push]
 
 jobs:
-  check-cluster:
+  setup:
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@master
@@ -17,43 +17,55 @@ jobs:
         fi
   test-source:
     runs-on: self-hosted
-    needs: check-cluster
+    needs: setup
     steps:
     - name: Clean Cluster
       run: |
         kubectl delete all --all
+        kubectl wait --for=delete pod --all
     - name: Deploy From Source
       run: |
         skaffold run
         sleep 30
         kubectl get pods
         echo waiting for ready state...
-        kubectl wait --for=condition=ready pod --timeout=600s  --all
+        kubectl wait --for=condition=ready pod  --all
     - name: Test HTTP
+      timeout-minutes: 5
       run: |
-        RESULT=$(kubectl exec deployments/frontend -- sh -c "wget --spider -S "http://frontend" 2>&1 | grep 'HTTP/'")
-        echo "front end response: $RESULT"
+        RESULT=" "
+        while [[ "$RESULT" != "  HTTP/1.1 200 OK" ]]; do
+          sleep 1
+          RESULT=$(kubectl exec deployments/frontend -- sh -c "wget --spider -S "http://frontend" 2>&1 | grep 'HTTP/'")
+          echo "front end response: $RESULT"
+        done
         if [[ "$RESULT" != "  HTTP/1.1 200 OK" ]]; then 
           exit 1
         fi
   test-release:
     runs-on: self-hosted
-    needs: [check-cluster, test-source]
+    needs: [setup, test-source]
     steps:
     - name: Clean Cluster
       run: |
         kubectl delete all --all
+        kubectl wait --for=delete pod --all
     - name: Deploy Release Manifests
       run: |
         kubectl apply -f ./release/kubernetes-manifests.yaml
         sleep 30
         kubectl get pods
         echo waiting for ready state...
-        kubectl wait --for=condition=ready pod --timeout=600s  --all
+        kubectl wait --for=condition=ready pod --all
     - name: Test HTTP
+      timeout-minutes: 5
       run: |
-        RESULT=$(kubectl exec deployments/frontend -- sh -c "wget --spider -S "http://frontend" 2>&1 | grep 'HTTP/'")
-        echo "front end response: $RESULT"
+        RESULT=" "
+        while [[ "$RESULT" != "  HTTP/1.1 200 OK" ]]; do
+          sleep 1
+          RESULT=$(kubectl exec deployments/frontend -- sh -c "wget --spider -S "http://frontend" 2>&1 | grep 'HTTP/'")
+          echo "front end response: $RESULT"
+        done
         if [[ "$RESULT" != "  HTTP/1.1 200 OK" ]]; then 
           exit 1
         fi
