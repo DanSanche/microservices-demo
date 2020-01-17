@@ -12,4 +12,5 @@ jobs:
     - name: Deploy
       run: |
         kubectl apply -f ./release/kubernetes-manifests.yaml
-        kubectl get pods
+        kubectl port-forward svc/frontend 8080:80 &
+        curl http://localhost:8080
