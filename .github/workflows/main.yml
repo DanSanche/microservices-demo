@@ -9,21 +9,27 @@ jobs:
     #- uses: engineerd/setup-kind@v0.3.0
     #  with:
     #      version: "v0.7.0"
-    - name: Build Containers
+    - name: Clean Cluster
       run: |
-        #for d in ./src/* ; do
-        #  echo "$d"
-        #done
+        kubectl delete all --all
+    - name: Deploy From Source
+      run: |
         skaffold run
         sleep 30
         kubectl get pods
         echo waiting for ready state...
         kubectl wait --for=condition=ready pod --timeout=600s  --all
+    - name: Test HTTP
+      run: |
+        RESULT=$(kubectl exec deployments/frontend -- sh -c "wget --spider -S "http://frontend" 2>&1 | grep 'HTTP/'")
+        echo "front end response: $RESULT"
+        if [[ "$RESULT" != "  HTTP/1.1 200 OK" ]]; then 
+          exit 1
+        fi
     - name: Clean Cluster
       run: |
-        kubectl delete deployments --all
-        kubectl delete svc --all
-    - name: Deploy Release
+        kubectl delete all --all
+    - name: Deploy Release Manifests
       run: |
         kubectl apply -f ./release/kubernetes-manifests.yaml
         sleep 30
