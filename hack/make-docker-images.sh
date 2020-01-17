@@ -16,6 +16,7 @@
 
 # Builds and pushes docker image for each demo microservice.
 
+
 set -euo pipefail
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
