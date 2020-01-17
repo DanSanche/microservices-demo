@@ -2,7 +2,7 @@ name: "System Smoke Tests"
 on: [pull_request, push]
 
 jobs:
-  kind:
+  check-cluster:
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@master
@@ -15,6 +15,10 @@ jobs:
           kind create cluster
           kubectl get nodes
         fi
+  test-source:
+    runs-on: self-hosted
+    needs: check-cluster
+    steps:
     - name: Clean Cluster
       run: |
         kubectl delete all --all
@@ -32,6 +36,10 @@ jobs:
         if [[ "$RESULT" != "  HTTP/1.1 200 OK" ]]; then 
           exit 1
         fi
+  test-release:
+    runs-on: self-hosted
+    needs: [check-cluster, test-source]
+    steps:
     - name: Clean Cluster
       run: |
         kubectl delete all --all
