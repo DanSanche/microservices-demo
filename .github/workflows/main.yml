@@ -26,10 +26,10 @@ jobs:
     - name: Deploy From Source
       run: |
         skaffold run
-        sleep 30
+        sleep 60
         kubectl get pods
         echo waiting for ready state...
-        kubectl wait --for=condition=ready deployment  --all --timeout=600s
+        kubectl wait --for=condition=ready pod  --all --timeout=300s
     - name: Test HTTP
       timeout-minutes: 5
       run: |
@@ -54,10 +54,10 @@ jobs:
     - name: Deploy Release Manifests
       run: |
         kubectl apply -f ./release/kubernetes-manifests.yaml
-        sleep 30
+        sleep 60
         kubectl get pods
         echo waiting for ready state...
-        kubectl wait --for=condition=ready deployment  --all --timeout=600s
+        kubectl wait --for=condition=ready pod  --all --timeout=300s
     - name: Test HTTP
       timeout-minutes: 5
       run: |
