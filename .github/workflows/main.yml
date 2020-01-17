@@ -1,6 +1,13 @@
 name: "System Smoke Tests"
-on: [pull_request, push]
-
+on:
+  push:
+    # run on pushes to master
+    branches:    
+      - master
+  pull_request:
+    # run on pull requests targeting master
+    branches:
+      - master
 jobs:
   setup:
     runs-on: self-hosted
