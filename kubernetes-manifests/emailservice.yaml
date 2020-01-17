@@ -32,8 +32,8 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: P
-          value: "8081"
+        - name: PORT
+          value: "8080"
         - name: ENABLE_PROFILER
           value: "0"
         readinessProbe:
