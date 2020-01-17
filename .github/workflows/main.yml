@@ -12,5 +12,5 @@ jobs:
     - name: Deploy
       run: |
         kubectl apply -f ./release/kubernetes-manifests.yaml
-        kubectl port-forward svc/frontend 8080:80 &
-        curl http://localhost:8080
+        kubectl wait --for=condition=ready pod --timeout=600s  --all
+        kubectl run -it  --generator=run-pod/v1  busybox --image=busybox -- sh -c 'wget --spider -S "http://frontend" 2>&1 | grep "HTTP/"'
