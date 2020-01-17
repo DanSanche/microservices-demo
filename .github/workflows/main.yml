@@ -28,7 +28,7 @@ jobs:
         sleep 30
         kubectl get pods
         echo waiting for ready state...
-        kubectl wait --for=condition=ready pod  --all
+        kubectl wait --for=condition=ready pod  --all --timeout=600s
     - name: Test HTTP
       timeout-minutes: 5
       run: |
@@ -54,7 +54,7 @@ jobs:
         sleep 30
         kubectl get pods
         echo waiting for ready state...
-        kubectl wait --for=condition=ready pod --all
+        kubectl wait --for=condition=ready pod  --all --timeout=600s
     - name: Test HTTP
       timeout-minutes: 5
       run: |
