@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+          image: gcr.io/sanche-testing-project/hipster-fork/frontend:v0.17
           ports:
           - containerPort: 8080
           readinessProbe:
@@ -121,7 +121,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: gcr.io/sanche-testing-project/hipster-fork/paymentservice:v0.17
         ports:
         - containerPort: 50051
         env:
@@ -169,7 +169,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+          image: gcr.io/sanche-testing-project/hipster-fork/checkoutservice:v0.17
           ports:
           - containerPort: 5050
           readinessProbe:
@@ -236,7 +236,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: main
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: gcr.io/sanche-testing-project/hipster-fork/loadgenerator:v0.17
         env:
         - name: FRONTEND_ADDR
           value: "frontend:80"
@@ -265,7 +265,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: redis:alpine
         ports:
         - containerPort: 6379
         readinessProbe:
@@ -319,7 +319,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: gcr.io/sanche-testing-project/hipster-fork/productcatalogservice:v0.17
         ports:
         - containerPort: 3550
         env:
@@ -370,7 +370,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: gcr.io/sanche-testing-project/hipster-fork/shippingservice:v0.17
         ports:
         - containerPort: 50051
         env:
@@ -423,7 +423,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: gcr.io/sanche-testing-project/hipster-fork/adservice:v0.17
         ports:
         - containerPort: 9555
         env:
@@ -478,7 +478,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: gcr.io/sanche-testing-project/hipster-fork/currencyservice:v0.17
         ports:
         - name: grpc
           containerPort: 7000
@@ -528,7 +528,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: gcr.io/sanche-testing-project/hipster-fork/recommendationservice:v0.17
         ports:
         - containerPort: 8080
         readinessProbe:
@@ -583,7 +583,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: gcr.io/sanche-testing-project/hipster-fork/cartservice:v0.17
         ports:
         - containerPort: 7070
         env:
@@ -639,7 +639,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: gcr.io/sanche-testing-project/hipster-fork/*:v0.17
+        image: gcr.io/sanche-testing-project/hipster-fork/emailservice:v0.17
         ports:
         - containerPort: 8080
         env:
