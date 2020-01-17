@@ -12,11 +12,10 @@ jobs:
     - name: Deploy
       run: |
         kubectl apply -f ./release/kubernetes-manifests.yaml
-        while true; do  
-          sleep 20
-          kubectl get pods
-        done
-        #kubectl wait --for=condition=ready pod --timeout=600s  --all
+        sleep 30
+        kubectl get pods
+        echo waiting for ready state...
+        kubectl wait --for=condition=ready pod --timeout=600s  --all
     - name: Test HTTP
       run: |
         kubectl exec deployments/frontend -- sh -c "wget --spider -S "http://frontend" 2>&1 | grep 'HTTP/'" 
