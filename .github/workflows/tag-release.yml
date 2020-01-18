@@ -11,7 +11,7 @@ jobs:
       #if: github.event.action != 'closed'
       run: |
         REF=${{ github.event.pull_request.head.ref }}
-        TAG= ${REF#"release/"}
+        TAG=${REF#"release/"}
         echo $TAG
         echo "##[set-output name=tag;]$TAG" 
     - name: Tag commit
