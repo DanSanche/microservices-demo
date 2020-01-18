@@ -1,0 +1,17 @@
+name: "Tag Release"
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - name: test
+      #if: github.event.action != 'closed'
+      run: |
+        echo ${{ github.event.pull_request.head.ref }}
+   # - name: Tag commit
+   #   uses: tvdias/github-tagger@v0.0.1
+   #   with:
+   #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
+   #     tag: "my_tag"
