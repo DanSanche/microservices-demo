@@ -1,8 +1,8 @@
 name: Detect Release
 on:
-  create:
-      branches:
-        - release/*
+  create: 
+    branches:
+      - release/*
 jobs:
   build:
     runs-on: self-hosted
