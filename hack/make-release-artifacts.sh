@@ -64,7 +64,7 @@ mk_kubernetes_manifests() {
     out_manifest="$(read_manifests "${SCRIPTDIR}/../kubernetes-manifests")"
 
     # replace "image" repo, tag for each service
-    for dir in ./src/*/
+    for dir in ${SCRIPTDIR}/../src/*/
     do
         svcname="$(basename "${dir}")"
         image="$REPO_PREFIX/$svcname:$TAG"
