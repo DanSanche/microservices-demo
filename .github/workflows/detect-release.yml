@@ -1,10 +1,11 @@
 name: Detect Release
 on:
-  create: 
+  create:
     branches:
       - release/*
 jobs:
   build:
+    if: startsWith(github.ref, "refs/heads/release/")
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
