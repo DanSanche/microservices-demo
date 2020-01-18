@@ -2,11 +2,9 @@ name: "Tag Release"
 on:
   pull_request:
     types: [closed]
-    branches:
-        - release/*
 jobs:
   tag-release:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
     runs-on: self-hosted
     steps:
     - name: get-tag
