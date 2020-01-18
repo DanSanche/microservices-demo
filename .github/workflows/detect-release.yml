@@ -5,7 +5,11 @@ jobs:
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
-    - name: Create PR
-      uses: funivan/github-autopr@0.2.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: GitHub Pull Request Action
+      uses: repo-sync/pull-request@v2.0.1
+      with:
+        # Branch name to sync to in this repo, default is master
+        destination_branch: master
+        pr_body: "Staged release. When merged, a new tag will automatially be pushed. Remember to re-run ./hack/make-release-artifacts.sh if you make any updates to container images."
+        #pr_label: release
+        github_token: ${{ secrets.GITHUB_TOKEN }}
