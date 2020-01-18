@@ -1,5 +1,8 @@
 name: Detect Release
-on: [push]
+on:
+  create:
+      branches:
+        - release/*
 jobs:
   build:
     runs-on: self-hosted
