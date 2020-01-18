@@ -1,14 +1,16 @@
 name: "Tag Release"
-
-on: pull_request
-
+on:
+  pull_request:
+    types: [closed]
+    branches:
+        - release/*
 jobs:
-  build:
+  tag-release:
+    if: github.event.pull_request.merged == true
     runs-on: self-hosted
     steps:
     - name: get-tag
       id: get-tag
-      #if: github.event.action != 'closed'
       run: |
         REF=${{ github.event.pull_request.head.ref }}
         TAG=${REF#"release/"}
