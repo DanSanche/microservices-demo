@@ -5,7 +5,7 @@ on:
       - release/*
 jobs:
   build:
-    if: startsWith(github.ref, "refs/heads/release/")
+    if: startsWith(github.ref, 'refs/heads/release')
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
