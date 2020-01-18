@@ -41,11 +41,11 @@ fi
 "${SCRIPTDIR}"/make-release-artifacts.sh
 
 # create git release / push to master
+git branch "release/$TAG" 2>/dev/null
+git checkout "release/$TAG"
 git add "${SCRIPTDIR}/../release/"
 git commit --allow-empty -m "Release $TAG"
-log "Pushing k8s manifests to master..."
-git tag "$TAG"
-git push --tags
-git push origin master
+log "Pushing release branch..."
+git push origin "release/$TAG"
 
-log "Successfully tagged release $TAG."
+log "Successfully pushed release branch release/$TAG."
