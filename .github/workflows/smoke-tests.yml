@@ -1,9 +1,10 @@
 name: "System Smoke Tests"
 on:
   push:
-    # run on pushes to master
+    # run on pushes to master or release/*
     branches:    
       - master
+      - release/*
   pull_request:
     # run on pull requests targeting master
     branches:
@@ -28,7 +29,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Clean Cluster
       run: |
-        kubectl delete all --all --wait=true
+        kubectl delete all --all --wait=true --force --grace-period=0
         sleep 5
     - name: Deploy From Source
       run: |
@@ -38,7 +39,17 @@ jobs:
         sleep 60
         kubectl get pods
         echo waiting for ready state...
-        kubectl wait --for=condition=ready pod  --all --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=adservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=cartservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=checkoutservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=currencyservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=emailservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=frontend --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=loadgenerator --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=paymentservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=productcatalogservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=recommendationservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=shippingservice --timeout=500s
     - name: Test HTTP
       timeout-minutes: 5
       run: |
@@ -58,7 +69,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Clean Cluster
       run: |
-        kubectl delete all --all --wait=true
+        kubectl delete all --all --wait=true --force --grace-period=0
         sleep 5
     - name: Deploy Release Manifests
       run: |
@@ -68,7 +79,17 @@ jobs:
         sleep 60
         kubectl get pods
         echo waiting for ready state...
-        kubectl wait --for=condition=ready pod  --all --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=adservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=cartservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=checkoutservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=currencyservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=emailservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=frontend --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=loadgenerator --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=paymentservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=productcatalogservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=recommendationservice --timeout=500s
+        kubectl wait --for=condition=ready pod -l app=shippingservice --timeout=500s
     - name: Test HTTP
       timeout-minutes: 5
       run: |

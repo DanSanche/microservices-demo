@@ -1,10 +1,11 @@
 name: Detect Release
 on:
   create:
-      branches:
-        - release/*
+    branches:
+      - release/*
 jobs:
   build:
+    if: startsWith(github.ref, 'refs/heads/release')
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
@@ -15,4 +16,4 @@ jobs:
         BRANCH_PREFIX: "release/"
         PULL_REQUEST_BRANCH: "master"
         PULL_REQUEST_TITLE: "Release: ${{ github.ref }}"
-        PULL_REQUEST_BODY: "### Release Checklist\n- ✔️ build new manifests for ./release/ directory\n  - handled by hack/make-release-artifacts.sh\n-✔️ push new tagged containers to gcr.io/google-samples/microservices-demo\n  - handled by hack/make-release-artifacts.sh. Remember to re-run if you make changes to this PR\n- 🕙 push new git tag to repo\n  - tag will be pushed by GitHub Action after this PR is merged"
+        PULL_REQUEST_BODY: "### Release Checklist\n- ✔️ build new manifests for ./release/ directory\n  - handled by hack/make-release-artifacts.sh\n- ✔️ push new tagged containers to gcr.io/google-samples/microservices-demo\n  - handled by hack/make-release-artifacts.sh. Remember to re-run if you make changes to this PR\n- 🕙 push new git tag to repo\n  - tag will be pushed by GitHub Action after this PR is merged"
