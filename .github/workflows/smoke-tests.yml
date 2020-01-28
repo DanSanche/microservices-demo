@@ -12,7 +12,6 @@ on:
 jobs:
   smoke-tests:
     runs-on: self-hosted
-    needs: setup
     steps:
     - uses: actions/checkout@v2
     - name: Setup Cluster
